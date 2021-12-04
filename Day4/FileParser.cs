@@ -6,6 +6,8 @@ namespace Day4
 {
 	public class FileParser
 	{
+		private int boardLength = 5;
+
 		public GameInput Parse(string fileName)
 		{
 			GameInput gameInput = new GameInput();
@@ -15,8 +17,9 @@ namespace Day4
 			IEnumerable<string> rawInput = File.ReadLines(fileName);
 			
 			int i = 0;
-
 			Board b = null;
+
+			List<string> lines = new List<string>();
 
 			foreach (string input in rawInput)
 			{
@@ -32,25 +35,26 @@ namespace Day4
 					continue;
 				}
 
-				if (string.IsNullOrEmpty(input))
+				if (!string.IsNullOrEmpty(input))
 				{
-					b = new Board(input.Length);	
+					lines.Add(input);
+				}
+
+				if (lines.Count == boardLength)
+				{
+					b = new Board(boardLength);	
 					
-					if(b.Fields.Length > 0)
+					b.AddBoardLines(lines);
+
+					if(b.Fields.Length > 0 && b.BoardTotalSum > 0)
 					{
 						gameInput.RawBoards.Add(b);
 					}
+
+					lines = new List<string>();
 					continue;
 				}
-
-				var boardLine = input
-					.Split(' ')
-					.Where(x => !string.IsNullOrEmpty(x))
-					.Select(x => int.Parse(x))
-					.ToArray();
-
-				//b.AddBoardLine(boardLine);
-
+				
 				i++;
 			}
 
