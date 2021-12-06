@@ -19,10 +19,10 @@ namespace Day6
 				Console.WriteLine($"Added {state}");
 			}
 
-			long resetFish = 0;
+			long newFish = 0;
 			for (int i = 0; i < 256; i++)
 			{
-				resetFish = allFish[0];
+				newFish = allFish[0];
 
 				//every day, the timer for each fish decrease by one, i.e. moving it around the array
 				allFish[0] = allFish[1];
@@ -31,9 +31,11 @@ namespace Day6
 				allFish[3] = allFish[4];
 				allFish[4] = allFish[5];
 				allFish[5] = allFish[6];
-				allFish[6] = resetFish + allFish[7];
+				//when a fish reaches timer == 0, it spawns a new fish ('newFish')
+				allFish[6] = newFish + allFish[7];
 				allFish[7] = allFish[8];
-				allFish[8] = resetFish;
+				//the newly spawned fish, starts at timer == 8
+				allFish[8] = newFish;
 
 				Console.WriteLine($"After day {i}: {allFish[0]}, {allFish[1]}, {allFish[2]}, {allFish[3]}, {allFish[4]}, {allFish[5]}, {allFish[6]}, {allFish[7]}, {allFish[8]}");
 			}
