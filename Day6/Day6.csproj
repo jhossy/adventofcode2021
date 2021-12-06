@@ -6,6 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Update="DemoInput.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="TaskInput.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

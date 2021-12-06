@@ -5,54 +5,45 @@ namespace Day6
 {
 	internal partial class Program
 	{
-		static List<LanternFish> _allFish = new List<LanternFish>();
-
 		static void Main(string[] args)
 		{
-			//AddDemoFish(3);
-			//AddDemoFish(4);
-			//AddDemoFish(3);
-			//AddDemoFish(1);
-			//AddDemoFish(2);
+			long[] allFish = new long[9];
 
 			FileParser fileParser = new FileParser();
-			int[] initialStates = fileParser.Parse("TaskInput.txt");
-
-			foreach(int i in initialStates)
+			//int[] initialStates = fileParser.Parse("TaskInput.txt");
+			int[] initialStates = fileParser.Parse("DemoInput.txt");
+						
+			foreach (int state in initialStates)
 			{
-				AddDemoFish(i);
+				allFish[state] += 1;
+				Console.WriteLine($"Added {state}");
 			}
 
-			for (int i=0; i < 80; i++)
+			List<long> resetFish = new List<long>();
+			for (int i = 1; i < 18; i++)
 			{
-				string timerString = "";
-				for(int j = 0; j < _allFish.Count; j++)
-				{
-					_allFish[j].PassDay();
-					timerString += _allFish[j].Timer + ",";
-				}
-				Console.WriteLine($"After day: {i}: {timerString}");
+				if (allFish[0] > 0) resetFish.Add(allFish[0]);
+
+				//every day, the timer for each fish decrease by one, i.e. moving it around the array
+				allFish[0] = allFish[1];
+				allFish[1] = allFish[2];
+				allFish[2] = allFish[3];
+				allFish[3] = allFish[4];
+				allFish[4] = allFish[5];
+				allFish[5] = allFish[6];
+				allFish[6] = resetFish.Count + allFish[7];
+				allFish[7] = allFish[8];
+				allFish[8] = resetFish.Count;
+
+				resetFish = new List<long>();
+
+				Console.WriteLine($"After day {i}: {allFish[0]}, {allFish[1]}, {allFish[2]}, {allFish[3]}, {allFish[4]}, {allFish[5]}, {allFish[6]}, {allFish[7]}, {allFish[8]}");
 			}
 
-			Console.WriteLine($"Total fish: {_allFish.Count}");
+			Console.WriteLine(allFish[0] + allFish[1] + allFish[2] + allFish[3] + allFish[4] + allFish[5] + allFish[6] + 
+				allFish[7] + allFish[8] + resetFish.Count);
+
 			Console.ReadLine();
-		}
-
-		private static void AddDemoFish(int state)
-		{
-			LanternFish fish = new LanternFish(state);
-			fish.TimerReset += Fish_TimerReset;
-			_allFish.Add(fish);
-		}
-
-		private static void Fish_TimerReset(object sender, EventArgs e)
-		{
-			LanternFish newFish = new LanternFish();
-			newFish.TimerReset += Fish_TimerReset;
-
-			_allFish.Add(newFish);
-
-			Console.WriteLine("Fish reset timer");
 		}
 	}
 }
