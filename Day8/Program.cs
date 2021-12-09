@@ -10,7 +10,7 @@ namespace Day8
 		{
 			FileParser fileParser = new FileParser();
 
-			List<FileNote> res = fileParser.Parse("DemoInput.txt");
+			List<FileNote> res = fileParser.Parse("TaskInput.txt");
 			
 			PuzzleSolver solver = new PuzzleSolver();
 
@@ -21,6 +21,8 @@ namespace Day8
 			int runningTotal = 0;
 			foreach (FileNote note in res)
 			{
+				values = new List<MappedValue>();
+
 				foreach (string str in note.InputArr.OrderBy(aux => aux.Length).ToArray())
 				{
 					values.Add(solver.Solve(d, str));
@@ -34,8 +36,6 @@ namespace Day8
 					MappedValue elm = values.FirstOrDefault(x => x.Input == sorted);
 					
 					runningResult += elm.Value;
-					
-					//Console.WriteLine($"{elm.Value}");
 				}
 				
 				Console.WriteLine(int.Parse(runningResult));

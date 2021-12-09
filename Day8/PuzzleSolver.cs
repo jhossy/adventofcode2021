@@ -55,61 +55,28 @@ namespace Day8
 
 			if (arr.Length == 5)
 			{
-				if (str.Count(c => digit.RightTop.Contains(c)) == 2 && str.Count(c => digit.RightBottom.Contains(c)) == 2)
+				if(digit.RightTop.Count(c => str.Contains(c)) == 2 && digit.RightBottom.Count(c => str.Contains(c)) == 2)
 					return new MappedValue() { Input = string.Concat(str.OrderBy(c => c)), Value = 3 };
-				
-				if (str.Count(c => digit.RightTop.Contains(c)) == 1 && str.Count(c => digit.RightBottom.Contains(c)) == 1 &&
-					str.Count(c => digit.Top.Contains(c)) == 1 && str.Count(c => digit.LeftTop.Contains(c)) == 1)
-					return new MappedValue() { Input = string.Concat(str.OrderBy(c => c)), Value = 2 };
-			
-				return new MappedValue() { Input = string.Concat(str.OrderBy(c => c)), Value = 5 };
+
+				if (digit.RightTop.Count(c => str.Contains(c)) == 1 && digit.Middle.Count(c => str.Contains(c)) == 2)
+					return new MappedValue() { Input = string.Concat(str.OrderBy(c => c)), Value = 5 };
+
+				return new MappedValue() { Input = string.Concat(str.OrderBy(c => c)), Value = 2 };
 			}
 
 			if (arr.Length == 6)
 			{
-				//if (str.Count(c => digit.Middle.Contains(c)) == 2)
-				//	return new MappedValue() { Input = string.Concat(str.OrderBy(c => c)), Value = 0 };
+				if(digit.Middle.Count(c => str.Contains(c)) == 1 || digit.LeftTop.Count(c => str.Contains(c)) == 1)
+					return new MappedValue() { Input = string.Concat(str.OrderBy(c => c)), Value = 0 };
 
-				if (str.Count(c => digit.RightTop.Contains(c)) == 2 && str.Count(c => digit.RightBottom.Contains(c)) == 2 &&
-					str.Count(c => digit.Middle.Contains(c)) == 2 && str.Count(c => digit.LeftTop.Contains(c)) == 2)
+				int cnt = digit.RightTop.Count(c => str.Contains(c));
+				if (digit.RightTop.Count(c => str.Contains(c)) == 2)
 					return new MappedValue() { Input = string.Concat(str.OrderBy(c => c)), Value = 9 };
 
-				if (str.Count(c => digit.RightTop.Contains(c)) == 1 && str.Count(c => digit.RightBottom.Contains(c)) == 1 &&
-					str.Count(c => digit.Top.Contains(c)) == 1 && str.Count(c => digit.LeftTop.Contains(c)) == 2)
-					return new MappedValue() { Input = string.Concat(str.OrderBy(c => c)), Value = 6 };
-				
-				return new MappedValue() { Input = string.Concat(str.OrderBy(c => c)), Value = 0 };
+				return new MappedValue() { Input = string.Concat(str.OrderBy(c => c)), Value = 6 };
 			}
 
 			return new MappedValue() { Input = string.Concat(str.OrderBy(c => c)), Value = 8 };
-		}
-
-		private MappedInput MapInput(string input)
-		{
-			char[] arr = input.ToCharArray();
-
-			if (input.Length == 2) return new MappedInput(arr, 1);
-
-			if (input.Length == 3) return new MappedInput(arr, 7);
-
-			if (input.Length == 4) return new MappedInput(arr, 4);
-
-			if (input.Length == 7) return new MappedInput(arr, 8);
-
-			return null;
-		}
-	}
-
-	public class MappedInput
-	{
-		public int Value { get; set; }
-
-		public char[] Chars { get; set; }
-
-		public MappedInput(char[] chars, int value)
-		{
-			Chars = chars;
-			Value = value;
 		}
 	}
 }
